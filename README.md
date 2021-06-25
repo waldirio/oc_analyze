@@ -31,32 +31,32 @@ Cluster Name ....: myocpcluster
 Cluster ID ......: 6a1266e7-73e1-4392-9a5e-3b59b5540db7
 
 ---
-Server name .......: master-0.ocp.local.domain
+Server name .......: master-0.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/master: ""
 CPU ...............: 4
 OS ................: rhcos
 ---
-Server name .......: master-1.ocp.local.domain
+Server name .......: master-1.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/master: ""
 CPU ...............: 4
 OS ................: rhcos
 ---
-Server name .......: master-2.ocp.local.domain
+Server name .......: master-2.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/master: ""
 CPU ...............: 4
 OS ................: rhcos
 ---
-Server name .......: worker-0.ocp.local.domain
+Server name .......: worker-0.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/master: ""
 CPU ...............: 4
 OS ................: rhcos
 ---
-Server name .......: worker-1.ocp.local.domain
+Server name .......: worker-1.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/worker: ""
 CPU ...............: 4
 OS ................: rhcos
 ---
-Server name .......: worker-2.ocp.local.domain
+Server name .......: worker-2.myocpcluster.ocp.local.domain
 Node role .........: node-role.kubernetes.io/infra: ""
 CPU ...............: 4
 OS ................: rhcos
