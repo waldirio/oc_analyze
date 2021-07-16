@@ -63,4 +63,4 @@ OS ................: rhcos
 ---
 ```
 
-I hope you enjoy it, any feedback/request/comment will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com)
+I hope you enjoy it, any feedback/request/comment/anything else will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com)
