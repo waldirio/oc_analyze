@@ -16,7 +16,8 @@ fi
 
 base_dir=$1
 
-if [ ! -f $base_dir/timestamp ]; then
+quay_test_dir=$(ls -l $base_dir | grep ^d | grep quay-io-openshift | wc -l)
+if [ $quay_test_dir -ne 1 ]; then
   echo "this is not a valid 'oc must-gather' dir"
   echo "exiting ..."
   exit
