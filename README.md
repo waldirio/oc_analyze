@@ -17,7 +17,7 @@ In a sequence, a directory will be created, for example `must-gather.local.12384
 
 You can create a tarball of this directory and send to the support. If you would like to execute this script locally on this `must-gather` directory, definitely you can
 ```
-# wget https://raw.githubusercontent.com/C-RH-C/oc_analyze/master/oc_analyze.sh
+# wget https://raw.githubusercontent.com/QikfixAI/oc_analyze/refs/heads/master/oc_analyze.sh
 # chmod +x oc_analyze.sh
 # ./oc_analyze.sh
 ```
@@ -84,4 +84,4 @@ kubernetes-nmstate-operator.openshift-nmstate                     190d
 
 ```
 
-Note. This is a brand new project, and I'm confident that you will find a lot of issues and improvements points, don't worry, and feel free to submit your feedback/request, they will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com) or in the [Issue link](https://github.com/C-RH-C/oc_analyze/issues), on the top left of this project.
+Note. This is a brand new project, and I'm confident that you will find a lot of issues and improvements points, don't worry, and feel free to submit your feedback/request, they will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com) or in the [Issue link](https://github.com/QikfixAI/oc_analyze/issues), on the top left of this project.
