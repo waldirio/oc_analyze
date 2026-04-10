@@ -6,7 +6,7 @@ This project or the binary files available in the `Releases` area are `NOT` deli
 ---
 
 
-Basically, you can execute this script against your `must-gather`, and the same will do some analysis using `omc`, and will generate a report at the end of the day.
+Basically, you can execute this script against your `must-gather`, and the same will do some queries using [`omc`](https://github.com/gmeghnag/omc) in the backend, also, we are doing some parses, and at the end of the day, a report will be created.
 
 First, ask your customer to execute the command `oc adm must-gather`
 ```
@@ -84,4 +84,4 @@ kubernetes-nmstate-operator.openshift-nmstate                     190d
 
 ```
 
-Note. This is a brand new project, and I'm confident that you will find a lot of issues and improvements points, don't worry, and feel free to submit your feedback/request, they will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com) or in the Issue link, on the top left of this project.
+Note. This is a brand new project, and I'm confident that you will find a lot of issues and improvements points, don't worry, and feel free to submit your feedback/request, they will be very welcome. Feel free to open a new issue or via email (waldirio@gmail.com | waldirio@redhat.com) or in the [Issue link](https://github.com/C-RH-C/oc_analyze/issues), on the top left of this project.
