@@ -34,13 +34,14 @@ check_must-gather()
   count=$(echo $@ | wc -w)
   #echo "Count: $count"
   if [ "$1" == "" ] || [ $count -ne 2 ] && [ $count -ne 4 ]; then
-    echo "Please, execute as below"
+    echo "Please, execute as below:"
+    echo
     echo "$0 --mgb path_to_your_regular_must-gather"
     echo "or"
     echo "$0 --mgai path_to_your_rhoai_must-gather"
     echo "or"
     echo "$0 --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather"
-    echo "exiting now ..."
+    #echo "exiting now ..."
     exit
   else
     if [ "$1" == "--mgb" ] && [ -d $2 ] && [ "$3" == "--mgai" ] && [ -d $4 ] && [ $count -eq 4 ]; then
