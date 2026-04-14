@@ -21,11 +21,17 @@ OUTPUT="/tmp/oc_analyze_report_${USER}_$(date +'%m-%d-%Y').log"
 check_requirements()
 {
   #OMC="/tmp/script/omc"
+  temporary_omc_path=$(which omc)
 
-  if [ ! -f $OMC ]; then
-    echo "No omc available - $OMC"
-    echo "exiting now ..."
-    exit
+  # Checking if there is an OMC binary in your path. In case of yes, let's use it.
+  if [ $? -eq 0 ]; then
+    OMC=$temporary_omc_path
+  else
+    if [ ! -f $OMC ]; then
+      echo "No omc available - $OMC"
+      echo "exiting now ..."
+      exit
+    fi
   fi
 }
 
