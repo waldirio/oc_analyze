@@ -240,6 +240,21 @@ check_all_namespaces_pods()
   div_function
 }
 
+cluster_etcd_info()
+{
+  echo "# Cluster and ETCd Information" | tee -a $OUTPUT
+  echo "---" >> $OUTPUT
+  $OMC get nodes>> $OUTPUT
+  echo >> $OUTPUT
+  $OMC etcd members>> $OUTPUT
+  echo >> $OUTPUT
+  $OMC etcd health>> $OUTPUT
+  echo >> $OUTPUT
+  $OMC etcd status>> $OUTPUT
+  echo "---" >> $OUTPUT
+  div_function
+}
+
 # Main calls here
 check_requirements
 check_must-gather $@
@@ -259,6 +274,7 @@ if $base_mg; then
   additional_operator_required_by_rhoai
   cluster_status
   rhoai_version
+  cluster_etcd_info
 
 fi
 
