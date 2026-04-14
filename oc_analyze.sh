@@ -103,7 +103,12 @@ set_folder_omc_mg()
     echo "Something went wrong setting the must-gather folder on OMC"
   else
     #echo "omc dir set properly"
-    :
+    echo "# Setting the OMC Must Gather Path" | tee -a $OUTPUT
+    echo "---" >> $OUTPUT
+    echo "Path ..: $1" >> $OUTPUT
+    echo "---" >> $OUTPUT
+
+    div_function
   fi
 
 }
@@ -275,13 +280,14 @@ if $base_mg; then
   cluster_status
   rhoai_version
   cluster_etcd_info
-
 fi
 
 if $rhoai_mg; then
   echo "## RHOAI Must-Gather" | tee -a $OUTPUT
   echo >> $OUTPUT
-  set_folder_omc_mg $must_gather_base_dir
+
+  set_folder_omc_mg $must_gather_rhoai_dir
+
   check_all_namespaces_pods
 fi
 
