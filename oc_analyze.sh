@@ -47,6 +47,8 @@ check_must-gather()
     echo "$0 --mgai path_to_your_rhoai_must-gather"
     echo "or"
     echo "$0 --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather"
+    echo "or"
+    echo "$0 --mgai path_to_your_rhoai_must-gather --mgb path_to_your_regular_must-gather"
     #echo "exiting now ..."
     exit
   else
@@ -55,43 +57,101 @@ check_must-gather()
       #echo "dir for --mgai is valid"
       must_gather_base_dir=$2
       must_gather_rhoai_dir=$4
+
+      quay_test_dir=$(ls -l $must_gather_base_dir | grep ^d | grep quay-io-openshift | wc -l)
+      rhoai_test_dir=$(ls -l $must_gather_rhoai_dir | grep ^d | grep registry-redhat-io-rhoai-odh | wc -l)
+      
+      if [ $quay_test_dir -ne 1 ]; then
+        echo "this is not a valid 'QUAY oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for base"
+        type_mg="base"
+        base_mg=true
+      fi
+
+      if [ $rhoai_test_dir -ne 1 ]; then
+        echo "this is not a valid 'RHOAI oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for rhoai"
+        type_mg="rhoai"
+        rhoai_mg=true
+      fi
+
+
+    elif [ "$1" == "--mgai" ] && [ -d $2 ] && [ "$3" == "--mgb" ] && [ -d $4 ] && [ $count -eq 4 ]; then
+      #echo "parameters ok and dir for --mgb and --mgai are valid"
+      #echo "dir for --mgai is valid"
+      must_gather_rhoai_dir=$2
+      must_gather_base_dir=$4
+
+      quay_test_dir=$(ls -l $must_gather_base_dir | grep ^d | grep quay-io-openshift | wc -l)
+      rhoai_test_dir=$(ls -l $must_gather_rhoai_dir | grep ^d | grep registry-redhat-io-rhoai-odh | wc -l)
+      
+      if [ $quay_test_dir -ne 1 ]; then
+        echo "this is not a valid 'QUAY oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for base"
+        type_mg="base"
+        base_mg=true
+      fi
+
+      if [ $rhoai_test_dir -ne 1 ]; then
+        echo "this is not a valid 'RHOAI oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for rhoai"
+        type_mg="rhoai"
+        rhoai_mg=true
+      fi
+
+
     elif [ "$1" == "--mgb" ] && [ -d $2 ] && [ $count -eq 2 ]; then
       #echo "parameters ok and dir for --mgb is valid"
       #echo "dir for --mgb is valid"
       must_gather_base_dir=$2
+
+      quay_test_dir=$(ls -l $must_gather_base_dir | grep ^d | grep quay-io-openshift | wc -l)
+      #rhoai_test_dir=$(ls -l $must_gather_rhoai_dir | grep ^d | grep registry-redhat-io-rhoai-odh | wc -l)
+      
+      if [ $quay_test_dir -ne 1 ]; then
+        echo "this is not a valid 'QUAY oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for base"
+        type_mg="base"
+        base_mg=true
+      fi
+
     elif [ "$1" == "--mgai" ] && [ -d $2 ] && [ $count -eq 2 ]; then
       #echo "parameters ok and dir for --mgai is valid"
       #echo "dir for --mgai is valid"
       must_gather_rhoai_dir=$2
+
+      rhoai_test_dir=$(ls -l $must_gather_rhoai_dir | grep ^d | grep registry-redhat-io-rhoai-odh | wc -l)
+      
+      if [ $rhoai_test_dir -ne 1 ]; then
+        echo "this is not a valid 'RHOAI oc must-gather' dir"
+        echo "exiting ..."
+        exit
+      else
+        #echo "valid for rhoai"
+        type_mg="rhoai"
+        rhoai_mg=true
+      fi
     else
       echo "parameters wrong and/or dir for --mgb and --mgai are missing"
       echo "exiting now ..."
       exit
     fi
 
-  fi
-
-  quay_test_dir=$(ls -l $must_gather_base_dir | grep ^d | grep quay-io-openshift | wc -l)
-  rhoai_test_dir=$(ls -l $must_gather_rhoai_dir | grep ^d | grep registry-redhat-io-rhoai-odh | wc -l)
-  
-  if [ $quay_test_dir -ne 1 ]; then
-    echo "this is not a valid 'oc must-gather' dir"
-    #echo "exiting ..."
-    #exit
-  else
-    #echo "valid for base"
-    type_mg="base"
-    base_mg=true
-  fi
-
-  if [ $rhoai_test_dir -ne 1 ]; then
-    echo "this is not a valid 'oc must-gather' dir"
-    #echo "exiting ..."
-    #exit
-  else
-    #echo "valid for rhoai"
-    type_mg="rhoai"
-    rhoai_mg=true
   fi
 }
 
