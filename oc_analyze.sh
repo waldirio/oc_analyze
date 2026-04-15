@@ -311,6 +311,67 @@ check_all_namespaces_pods()
   div_function
 }
 
+check_all_namespaces_pods_not_normal()
+{
+  echo "# Checking All Namespaces and Pods for Pods that are NOT ok" | tee -a $OUTPUT
+  echo "---" >> $OUTPUT
+
+  # Summary presenting all the Pods that are diff from Running
+  echo "### Summary of Problematic Pods ###" >> $OUTPUT
+  echo "" >> $OUTPUT
+  echo "Command ....: $OMC get pods -A | grep -v Running" >> $OUTPUT
+  echo "-----" >> $OUTPUT
+  $OMC get pods -A | grep -v Running >> $OUTPUT
+  echo "-----" >> $OUTPUT
+  echo >> $OUTPUT
+  echo >> $OUTPUT
+
+  # Retrieving a complete list of pods that are not Running
+  $OMC get pods -A --no-headers | grep -v Running | while read namespace pod a b c d
+  do
+    #echo "NS: $namespace"
+    #echo "POD: $pod"
+    
+    echo "### Troubleshooting Of ###" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo "POD ........: $pod" >> $OUTPUT
+    echo "Namespace ..: $namespace" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
+    echo "# Current Pod's State" >> $OUTPUT
+    echo "Command ....: $OMC get pods $pod -n $namespace" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC get pods $pod -n $namespace >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
+    echo "# Current Pod's Event" >> $OUTPUT
+    echo "Command ....: $OMC events pods $pod -n $namespace" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC events pods $pod -n $namespace  >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
+    echo "# Current Pod's Describe" >> $OUTPUT
+    echo "Command ....: $OMC describe pods $pod -n $namespace" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC describe pods $pod -n $namespace >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
+    echo "# Current Pod's Output in YAML Format" >> $OUTPUT
+    echo "Command ....: $OMC get pods $pod -n $namespace -o yaml" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC get pods $pod -n $namespace -o yaml >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+  done
+
+  echo "---" >> $OUTPUT
+  div_function
+}
+
 cluster_etcd_info()
 {
   echo "# Cluster and ETCd Information" | tee -a $OUTPUT
@@ -355,6 +416,7 @@ if $rhoai_mg; then
   set_folder_omc_mg $must_gather_rhoai_dir
 
   check_all_namespaces_pods
+  check_all_namespaces_pods_not_normal
 fi
 
 echo
