@@ -13,7 +13,7 @@ type_mg=""
 base_mg=false
 rhoai_mg=false
 OMC="/tmp/script/omc"
-fmt="%-50s %-45s %-25s\n" 
+fmt="%-50s %-45s %-25s %-25s %-25s\n" 
 TEMP_FILE="/tmp/temp_file.$$"
 OUTPUT="/tmp/oc_analyze_report_${USER}_$(date +'%m-%d-%Y').log"
 > $OUTPUT
@@ -214,31 +214,31 @@ additional_operator_versions()
 
 additional_operator_install_plan_approval()
 {
-  echo "# Operator's Install Plan Approval" | tee -a $OUTPUT
+  echo "# Operator's Subscription & Install Plan Approval" | tee -a $OUTPUT
+  echo "" >> $OUTPUT
+  echo "# Operator's Subscription" >> $OUTPUT
+  echo "Command ....: $OMC get subscriptions -A" >> $OUTPUT
   echo "---" >> $OUTPUT
-  $OMC get csv -A --no-headers >$TEMP_FILE
+  $OMC get subscriptions -A  &>> $OUTPUT
+  echo "---" >> $OUTPUT
 
-  printf "$fmt" "OPERATOR" "NAMESPACE" "INSTALL_PLAN_VALUE" >> $OUTPUT
-  #$OMC get csv -A --no-headers | awk '{print $2}' | sort -u | while read operator
-  cat $TEMP_FILE | awk '{print $2}' | sort -u | while read operator
+  echo "" >> $OUTPUT
+
+
+  echo "# Installation Plans" | tee -a $OUTPUT
+  echo "Command ....: $OMC get subscriptions -A" >> $OUTPUT
+  echo "---" >> $OUTPUT
+  printf "$fmt" "NAMESPACE" "NAME" "SOURCE" "CHANNEL" "INSTALLPLAN" >> $OUTPUT
+  printf "$fmt" "---------" "----" "------" "-------" "-----------" >> $OUTPUT
+
+  $OMC get subscriptions -A --no-headers | while read namespace name package source channel
   do
-    #echo - $operator
-    just_operator=$(echo $operator | sed 's/\./ /' | awk '{print $1}')
-    count=$(grep "$operator" $TEMP_FILE | awk '{print $1}' | sort -u | wc -l)
-    if [ $count -eq 1 ]; then
-      namespace=$(grep "$operator" $TEMP_FILE | awk '{print $1}')
-    else
-      namespace="openshift-operators"
-    fi
+    installplanapproval_value=$($OMC get subscriptions $name -n $namespace -o yaml | grep "installPlanApproval" | awk '{print $2}')
+    printf "$fmt" $namespace $name $source $channel $installplanapproval_value >> $OUTPUT
 
-    install_plan_value=$(grep "^  installPlanApproval" $base_dir/*/namespaces/$namespace/operators.coreos.com/subscriptions/$just_operator*.yaml 2>/dev/null | awk '{print $2}')
-
-    printf "$fmt" $operator $namespace $install_plan_value >> $OUTPUT
   done
-
   echo "---" >> $OUTPUT
-  echo "Note. If you see **openshift-operators** as namespace, probably this operator has visibility in multiple namespaces" >> $OUTPUT
-  echo "Note. If the InstallPlanValue is empty, probably the file is missing in the must-gather" >> $OUTPUT
+
   div_function
   rm -rf $TEMP_FILE
 }
