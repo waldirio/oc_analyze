@@ -15,7 +15,7 @@ rhoai_mg=false
 OMC="/tmp/script/omc"
 fmt="%-50s %-45s %-25s %-25s %-25s\n" 
 TEMP_FILE="/tmp/temp_file.$$"
-OUTPUT="/tmp/oc_analyze_report_${USER}_$(date +'%m-%d-%Y_%H:%M:%S').log"
+OUTPUT="/tmp/oc_analyze_report_${USER}_$(date +'%m-%d-%Y_%H-%M-%S').log"
 #> $OUTPUT
 
 check_requirements()
