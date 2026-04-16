@@ -187,6 +187,7 @@ set_folder_omc_mg()
 installed_additional_operators()
 {
   echo "# Installed Operators" | tee -a $OUTPUT
+  echo "Command ....: $OMC get operators" >> $OUTPUT
   echo "---" >> $OUTPUT
   $OMC get operators >> $OUTPUT
   echo "---" >> $OUTPUT
@@ -197,6 +198,7 @@ installed_additional_operators()
 additional_operator_status()
 {
   echo "# Operator's Status" | tee -a $OUTPUT
+  echo "Command ....: $OMC get ClusterServiceVersion" >> $OUTPUT
   echo "---" >> $OUTPUT
   $OMC get ClusterServiceVersion >> $OUTPUT
   echo "---" >> $OUTPUT
@@ -206,6 +208,7 @@ additional_operator_status()
 additional_operator_versions()
 {
   echo "# Operator's Version (all of them)" | tee -a $OUTPUT
+  echo "Command ....: $OMC get csv -A --no-headers | awk '{print \$2}' | sort -u | sed 's/\./ /'" >> $OUTPUT
   echo "---" >> $OUTPUT
   printf "$fmt_two_fields" "NAME" "VERSION" >> $OUTPUT
   $OMC get csv -A --no-headers | awk '{print $2}' | sort -u | sed 's/\./ /' | while read operator_name version
@@ -259,6 +262,7 @@ additional_operator_required_by_rhoai()
 cluster_status()
 {
   echo "# Cluster Operator Status" | tee -a $OUTPUT
+  echo "Command ....: $OMC get co --no-headers | awk '\$5 == \"True\"'" >> $OUTPUT
   echo "---" >> $OUTPUT
   # Checking if there is any cluster operator that is degraded
   validate_degraded_cluster=$($OMC get co --no-headers | awk '$5 == "True"' | wc -l)
@@ -281,6 +285,7 @@ cluster_status()
 rhoai_version()
 {
   echo "# RHOAI Version" | tee -a $OUTPUT
+  echo "Command ....: $OMC get csv -A --no-headers | awk '{print \$2}' | sort -u | sed 's/\./ /' | grep rhods-operator" >> $OUTPUT
   echo "---" >> $OUTPUT
   printf "$fmt_two_fields" "NAME" "VERSION" >> $OUTPUT
   $OMC get csv -A --no-headers | awk '{print $2}' | sort -u | sed 's/\./ /' | grep rhods-operator | while read operator_name version
@@ -305,6 +310,7 @@ present_mg()
 check_all_namespaces_pods()
 {
   echo "# Checking All Namespaces and Pods" | tee -a $OUTPUT
+  echo "Command ....: $OMC get namespaces --no-headers | awk '{print \$1}'" >> $OUTPUT
   echo "---" >> $OUTPUT
   for ns in $($OMC get namespaces --no-headers | awk '{print $1}')
   do 
@@ -387,14 +393,18 @@ check_all_namespaces_pods_not_normal()
 cluster_etcd_info()
 {
   echo "# Cluster and ETCd Information" | tee -a $OUTPUT
+  echo "Command ....: $OMC get nodes" >> $OUTPUT
+  echo "Command ....: $OMC etcd members" >> $OUTPUT
+  echo "Command ....: $OMC etcd health" >> $OUTPUT
+  echo "Command ....: $OMC etcd status" >> $OUTPUT
   echo "---" >> $OUTPUT
-  $OMC get nodes>> $OUTPUT
+  $OMC get nodes >> $OUTPUT
   echo >> $OUTPUT
-  $OMC etcd members>> $OUTPUT
+  $OMC etcd members >> $OUTPUT
   echo >> $OUTPUT
-  $OMC etcd health>> $OUTPUT
+  $OMC etcd health >> $OUTPUT
   echo >> $OUTPUT
-  $OMC etcd status>> $OUTPUT
+  $OMC etcd status >> $OUTPUT
   echo "---" >> $OUTPUT
   div_function
 }
