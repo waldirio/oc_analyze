@@ -13,7 +13,9 @@ type_mg=""
 base_mg=false
 rhoai_mg=false
 OMC="/tmp/script/omc"
-fmt="%-50s %-45s %-25s %-25s %-25s\n" 
+fmt_two_fields="%-50s %-15s\n" 
+fmt_three_fields="%-50s %-45s %-25s\n" 
+fmt_five_fields="%-50s %-45s %-25s %-25s %-25s\n" 
 TEMP_FILE="/tmp/temp_file.$$"
 OUTPUT="/tmp/oc_analyze_report_${USER}_$(date +'%m-%d-%Y_%H-%M-%S').log"
 #> $OUTPUT
@@ -205,11 +207,11 @@ additional_operator_versions()
 {
   echo "# Operator's Version (all of them)" | tee -a $OUTPUT
   echo "---" >> $OUTPUT
-  printf "$fmt" "NAME" "VERSION" >> $OUTPUT
+  printf "$fmt_two_fields" "NAME" "VERSION" >> $OUTPUT
   $OMC get csv -A --no-headers | awk '{print $2}' | sort -u | sed 's/\./ /' | while read operator_name version
   do
     #printf "$fmt" $b "NOT_INSTALLED" "NOT_INSTALLED"
-    printf "$fmt" ${operator_name}.${version} $version >> $OUTPUT
+    printf "$fmt_two_fields" ${operator_name}.${version} $version >> $OUTPUT
   done
   echo "---" >> $OUTPUT
   div_function
@@ -231,13 +233,13 @@ additional_operator_install_plan_approval()
   echo "# Installation Plans" | tee -a $OUTPUT
   echo "Command ....: $OMC get subscriptions -A" >> $OUTPUT
   echo "---" >> $OUTPUT
-  printf "$fmt" "NAMESPACE" "NAME" "SOURCE" "CHANNEL" "INSTALLPLAN" >> $OUTPUT
-  printf "$fmt" "---------" "----" "------" "-------" "-----------" >> $OUTPUT
+  printf "$fmt_five_fields" "NAMESPACE" "NAME" "SOURCE" "CHANNEL" "INSTALLPLAN" >> $OUTPUT
+  printf "$fmt_five_fields" "---------" "----" "------" "-------" "-----------" >> $OUTPUT
 
   $OMC get subscriptions -A --no-headers | while read namespace name package source channel
   do
     installplanapproval_value=$($OMC get subscriptions $name -n $namespace -o yaml | grep "installPlanApproval" | awk '{print $2}')
-    printf "$fmt" $namespace $name $source $channel $installplanapproval_value >> $OUTPUT
+    printf "$fmt_five_fields" $namespace $name $source $channel $installplanapproval_value >> $OUTPUT
 
   done
   echo "---" >> $OUTPUT
@@ -264,12 +266,12 @@ cluster_status()
   if [ $validate_degraded_cluster -eq 0 ]; then
     echo "All OK" >> $OUTPUT
   else
-    printf "$fmt" "OPERATOR" "VERSION" "DEGRADED" >> $OUTPUT
-    printf "$fmt" "--------" "-------" "--------" >> $OUTPUT
+    printf "$fmt_three_fields" "OPERATOR" "VERSION" "DEGRADED" >> $OUTPUT
+    printf "$fmt_three_fields" "--------" "-------" "--------" >> $OUTPUT
 
     $OMC get co --no-headers | awk '$5 == "True"' | while read -r name ver avail prog deg since
     do
-      printf "$fmt" "$name" "$ver" "$deg" >> $OUTPUT
+      printf "$fmt_three_fields" "$name" "$ver" "$deg" >> $OUTPUT
     done
   fi
   echo "---" >> $OUTPUT
@@ -280,11 +282,11 @@ rhoai_version()
 {
   echo "# RHOAI Version" | tee -a $OUTPUT
   echo "---" >> $OUTPUT
-  printf "$fmt" "NAME" "VERSION" >> $OUTPUT
+  printf "$fmt_two_fields" "NAME" "VERSION" >> $OUTPUT
   $OMC get csv -A --no-headers | awk '{print $2}' | sort -u | sed 's/\./ /' | grep rhods-operator | while read operator_name version
   do
     #printf "$fmt" $b "NOT_INSTALLED" "NOT_INSTALLED"
-    printf "$fmt" ${operator_name}.${version} $version >> $OUTPUT
+    printf "$fmt_two_fields" ${operator_name}.${version} $version >> $OUTPUT
   done
   echo "---" >> $OUTPUT
   div_function
