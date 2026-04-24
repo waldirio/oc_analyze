@@ -27,11 +27,13 @@ The output will be something as below
 $ ./oc_analyze.sh
 Please, execute as below:
 
-./oc_analyze.sh --mgb path_to_your_regular_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgb path_to_your_regular_must-gather
 or
-./oc_analyze.sh --mgai path_to_your_rhoai_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgai path_to_your_rhoai_must-gather
 or
-./oc_analyze.sh --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather
+or
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgai path_to_your_rhoai_must-gather --mgb path_to_your_regular_must-gather
 ```
 
 You can execute `oc_analyze.sh` against a regular `must-gather`, or against an `AI must-gather`. You just need to specify via flag `--mgb` or `--mgai`
