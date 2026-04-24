@@ -67,7 +67,7 @@ $ oc_analyze.sh --mgb must-gather.local.4689572329225334722/ --mgai must-gather.
 
 And a very short snippet
 ```
-$ head /tmp/oc_analyze_report_wpinheir_04-10-2026.log -n 20
+$ head /tmp/oc_analyze_report_waldirio_04-24-2026_22-27-08.log -n 20
 
 ## Must Gather Used
 ---
