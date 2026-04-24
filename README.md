@@ -44,17 +44,23 @@ The output will be something as below
 $ oc_analyze.sh --mgb must-gather.local.4689572329225334722/ --mgai must-gather.local.10433306961132572/
 ## Must Gather Used
 ## Base Must-Gather
+# Setting the OMC Must Gather Path
 # Installed Operators
 # Operator's Status
 # Operator's Version (all of them)
-# Operator's Install Plan Approval
+# Operator's Subscription & Install Plan Approval
+# Installation Plans
 # Operator's Required by RHOAI
 # Cluster Operator Status
 # RHOAI Version
+# Cluster and ETCd Information
+# Checking All Namespaces and Pods for Pods that are NOT ok
 ## RHOAI Must-Gather
+# Setting the OMC Must Gather Path
 # Checking All Namespaces and Pods
+# Checking All Namespaces and Pods for Pods that are NOT ok
 
-## Please, check the file /tmp/oc_analyze_report_USER_04-10-2026.log for follow-up! ##
+## Please, check the file /tmp/oc_analyze_report_waldirio_04-24-2026_22-27-08.log for follow-up! ##
 ```
 
 And a very short snippet
