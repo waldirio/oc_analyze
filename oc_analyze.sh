@@ -330,15 +330,15 @@ check_all_namespaces_pods_not_normal()
   # Summary presenting all the Pods that are diff from Running
   echo "### Summary of Problematic Pods ###" >> $OUTPUT
   echo "" >> $OUTPUT
-  echo "Command ....: $OMC get pods -A | grep -v Running" >> $OUTPUT
+  echo "Command ....: $OMC get pods -A | grep -v -E '( Running | Completed )'" >> $OUTPUT
   echo "-----" >> $OUTPUT
-  $OMC get pods -A | grep -v Running >> $OUTPUT
+  $OMC get pods -A | grep -v -E '( Running | Completed )' >> $OUTPUT
   echo "-----" >> $OUTPUT
   echo >> $OUTPUT
   echo >> $OUTPUT
 
   # Retrieving a complete list of pods that are not Running
-  $OMC get pods -A --no-headers | grep -v Running | while read namespace pod a b c d
+  $OMC get pods -A --no-headers | grep -v -E '( Running | Completed )' | while read namespace pod a b c d
   do
     #echo "NS: $namespace"
     #echo "POD: $pod"
@@ -357,17 +357,17 @@ check_all_namespaces_pods_not_normal()
     echo "-----" >> $OUTPUT
     echo >> $OUTPUT
 
-    echo "# Current Pod's Event" >> $OUTPUT
-    echo "Command ....: $OMC events pods $pod -n $namespace" >> $OUTPUT
-    echo "-----" >> $OUTPUT
-    $OMC events pods $pod -n $namespace  >> $OUTPUT
-    echo "-----" >> $OUTPUT
-    echo >> $OUTPUT
-
     echo "# Current Pod's Event. Everything Different from Normal" >> $OUTPUT
     echo "Command ....: $OMC events pods $pod -n $namespace | grep -v \" Normal \"" >> $OUTPUT
     echo "-----" >> $OUTPUT
     $OMC events pods $pod -n $namespace | grep -v " Normal "  >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
+    echo "# Current Pod's Event" >> $OUTPUT
+    echo "Command ....: $OMC events pods $pod -n $namespace" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC events pods $pod -n $namespace  >> $OUTPUT
     echo "-----" >> $OUTPUT
     echo >> $OUTPUT
 
@@ -384,6 +384,14 @@ check_all_namespaces_pods_not_normal()
     $OMC get pods $pod -n $namespace -o yaml >> $OUTPUT
     echo "-----" >> $OUTPUT
     echo >> $OUTPUT
+
+    echo "# Current Pod's Logs" >> $OUTPUT
+    echo "Command ....: $OMC logs $pod -n $namespace -o yaml" >> $OUTPUT
+    echo "-----" >> $OUTPUT
+    $OMC logs $pod -n $namespace &>> $OUTPUT
+    echo "-----" >> $OUTPUT
+    echo >> $OUTPUT
+
   done
 
   echo "---" >> $OUTPUT
@@ -429,6 +437,7 @@ if $base_mg; then
   cluster_status
   rhoai_version
   cluster_etcd_info
+  check_all_namespaces_pods_not_normal
 fi
 
 if $rhoai_mg; then

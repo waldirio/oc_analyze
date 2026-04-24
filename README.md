@@ -27,11 +27,13 @@ The output will be something as below
 $ ./oc_analyze.sh
 Please, execute as below:
 
-./oc_analyze.sh --mgb path_to_your_regular_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgb path_to_your_regular_must-gather
 or
-./oc_analyze.sh --mgai path_to_your_rhoai_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgai path_to_your_rhoai_must-gather
 or
-./oc_analyze.sh --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgb path_to_your_regular_must-gather --mgai path_to_your_rhoai_must-gather
+or
+/home/remote/wpinheir/code/oc_analyze/oc_analyze.sh --mgai path_to_your_rhoai_must-gather --mgb path_to_your_regular_must-gather
 ```
 
 You can execute `oc_analyze.sh` against a regular `must-gather`, or against an `AI must-gather`. You just need to specify via flag `--mgb` or `--mgai`
@@ -44,22 +46,28 @@ The output will be something as below
 $ oc_analyze.sh --mgb must-gather.local.4689572329225334722/ --mgai must-gather.local.10433306961132572/
 ## Must Gather Used
 ## Base Must-Gather
+# Setting the OMC Must Gather Path
 # Installed Operators
 # Operator's Status
 # Operator's Version (all of them)
-# Operator's Install Plan Approval
+# Operator's Subscription & Install Plan Approval
+# Installation Plans
 # Operator's Required by RHOAI
 # Cluster Operator Status
 # RHOAI Version
+# Cluster and ETCd Information
+# Checking All Namespaces and Pods for Pods that are NOT ok
 ## RHOAI Must-Gather
+# Setting the OMC Must Gather Path
 # Checking All Namespaces and Pods
+# Checking All Namespaces and Pods for Pods that are NOT ok
 
-## Please, check the file /tmp/oc_analyze_report_USER_04-10-2026.log for follow-up! ##
+## Please, check the file /tmp/oc_analyze_report_waldirio_04-24-2026_22-27-08.log for follow-up! ##
 ```
 
 And a very short snippet
 ```
-$ head /tmp/oc_analyze_report_wpinheir_04-10-2026.log -n 20
+$ head /tmp/oc_analyze_report_waldirio_04-24-2026_22-27-08.log -n 20
 
 ## Must Gather Used
 ---
