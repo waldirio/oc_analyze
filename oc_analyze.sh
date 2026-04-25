@@ -417,6 +417,23 @@ cluster_etcd_info()
   div_function
 }
 
+check_fips()
+{
+  echo "# FIPS 'Federal Information Processing Standards' Status" | tee -a $OUTPUT
+  echo "Command ....: $OMC get cm cluster-config-v1 -n kube-system -o jsonpath=\"{.data.install-config}\" | grep -i \"fips\"" >> $OUTPUT
+  echo "---" >> $OUTPUT
+  count=$($OMC get cm cluster-config-v1 -n kube-system -o jsonpath="{.data.install-config}" | grep -i "fips" | wc -l)
+  if [ $count -eq 0 ]; then
+    echo "FIPS not enabled" >> $OUTPUT
+  else
+    echo "FIPS enabled" >> $OUTPUT
+    $OMC get cm cluster-config-v1 -n kube-system -o jsonpath="{.data.install-config}" | grep -i "fips" >> $OUTPUT
+  fi
+  echo "---" >> $OUTPUT
+
+  div_function
+}
+
 # Main calls here
 check_requirements
 check_must-gather $@
@@ -437,6 +454,7 @@ if $base_mg; then
   cluster_status
   rhoai_version
   cluster_etcd_info
+  check_fips
   check_all_namespaces_pods_not_normal
 fi
 
