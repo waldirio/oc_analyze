@@ -56,6 +56,7 @@ $ oc_analyze.sh --mgb must-gather.local.4689572329225334722/ --mgai must-gather.
 # Cluster Operator Status
 # RHOAI Version
 # Cluster and ETCd Information
+# FIPS 'Federal Information Processing Standards' Status
 # Checking All Namespaces and Pods for Pods that are NOT ok
 ## RHOAI Must-Gather
 # Setting the OMC Must Gather Path
